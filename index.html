@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Professional cleaning and maintenance for homes, offices, and commercial properties across Greater Vancouver. Sustenable. Meticulous. Reliable.">
-<title>Nova - Under Maintenance</title>
+<title>Nova – Under Maintenance</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -329,15 +328,26 @@
     </div>
   </div>
 
-  <form class="notify-form" onsubmit="handleSubmit(event)">
-    <input type="email" id="emailInput" placeholder="your@email.com" />
-    <button type="submit">Notify me</button>
-  </form>
-
   <p class="footer-note">© 2026 Nova Cleaning · All rights reserved</p>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
+  // ─── EmailJS config ───────────────────────────────────────────────
+  // 1. Sign up free at https://www.emailjs.com
+  // 2. Create an Email Service (Gmail) → copy your Service ID below
+  // 3. Create an Email Template with variables {{from_email}} and {{to_email}}
+  //    → copy your Template ID below
+  // 4. Go to Account → API Keys → copy your Public Key below
+  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'user_xxxxxxxxxxxxxxx'
+  const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_xxxxxxx'
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. 'template_xxxxxxx'
+  const NOTIFY_EMAIL        = 'grissell@nova-maintenance-vancouver.com';
+  // ─────────────────────────────────────────────────────────────────
+
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  // Falling leaves
   const container = document.getElementById('leaves');
   for (let i = 0; i < 18; i++) {
     const el = document.createElement('div');
@@ -356,14 +366,31 @@
 
   function handleSubmit(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button');
+    const btn   = e.target.querySelector('button');
     const input = e.target.querySelector('input');
-    if (!input.value) return;
-    btn.textContent = '✓ Subscribed!';
-    btn.style.background = 'var(--green-dark)';
-    input.value = '';
-    input.disabled = true;
+    const email = input.value.trim();
+    if (!email) return;
+
+    btn.textContent = 'Sending…';
     btn.disabled = true;
+    input.disabled = true;
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      from_email: email,
+      to_email:   NOTIFY_EMAIL,
+      message:    email + ' requested to be notified when Nova is back online.'
+    })
+    .then(() => {
+      btn.textContent = '✓ Subscribed!';
+      btn.style.background = 'var(--green-dark)';
+      input.value = '';
+    })
+    .catch(() => {
+      btn.textContent = 'Try again';
+      btn.style.background = '#c0392b';
+      btn.disabled = false;
+      input.disabled = false;
+    });
   }
 </script>
 </body>
