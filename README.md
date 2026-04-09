@@ -1,6 +1,7 @@
 # Nova clean
 
 CI/CD
+
 - ssh key from hostinger + repo
 - github actions secret
 - yml file
