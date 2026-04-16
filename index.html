@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,12 +41,19 @@
         <span>Maintenance Solutions Inc.</span>
       </div>
     </a>
+
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
       <li><a href="https://forms.gle/LwBgo2q9eRAqD328A" class="membership">Membership available !</a></li>
       <li><a href="#pay">PAY AN INVOICE</a></li>
       <li><a href="#contact" class="nav-cta">Book now</a></li>
     </ul>
+
+    <button class="burger menu" id="burgerBtn" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
   </nav>
 
 
@@ -274,11 +282,9 @@
       <a href="https://cal.com/nova-maintenance-vancouver/booking" class="btn-white">BOOK NOW</a>
       <p class="cta-phone">Or call: <strong><a href="tel:+17786975374">778-697-5374</a></strong></p>
     </div>
-    <stripe-buy-button id="pay"
-  buy-button-id="buy_btn_1TMa1bJa7tEngCB6jFcuKD1P"
-  publishable-key="pk_test_51TGjArJa7tEngCB6yQkMxNMtyNJf1JLLPtRGJIQvcXbohtfhihAlumvIOP6xcRxsHTmIoyOgvZyV50QxqzBKzHAW00U4d64BPt"
->
-</stripe-buy-button>
+    <stripe-buy-button id="pay" buy-button-id="buy_btn_1TMa1bJa7tEngCB6jFcuKD1P"
+      publishable-key="pk_test_51TGjArJa7tEngCB6yQkMxNMtyNJf1JLLPtRGJIQvcXbohtfhihAlumvIOP6xcRxsHTmIoyOgvZyV50QxqzBKzHAW00U4d64BPt">
+    </stripe-buy-button>
   </section>
 
 
@@ -328,10 +334,32 @@
     </div>
   </footer>
 
-    <script async
-  src="https://js.stripe.com/v3/buy-button.js">
-</script>
+  <script async src="https://js.stripe.com/v3/buy-button.js">
+  </script>
   <script>
+
+    const btn   = document.getElementById('burgerBtn');
+const links = document.querySelector('.nav-links');
+
+btn.addEventListener('click', () => {
+  const isOpen = btn.classList.toggle('open');
+  links.classList.toggle('open', isOpen);
+  btn.setAttribute('aria-expanded', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && btn.classList.contains('open')) {
+    btn.classList.remove('open');
+    links.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+});
+
+    document.getElementById('burgerBtn').addEventListener('click', function () {
+      this.classList.toggle('open');
+    });
     window.addEventListener('scroll', () => {
       document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
     });
