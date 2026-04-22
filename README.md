@@ -10,7 +10,7 @@ CI/CD
 - On Github, paste the SSH Key and put HOSTINGER_SSH_KEY as name **(Settings > Deploy keys > add SHH key)**
 - On Hostinger, add **(<git@github.com/user:repo.git>)**, the prod branch name (often 'main'), let directory field empty and click on 'Create' **(Websites > domain > Advanced > Git > Create)**
 
-2 - Automate the deployement with *FTP*
+2 - Automate the deployement
 
 - On Hostinger, copy the Webhook url **(Websites > domain > Advanced > Git > Auto-deploy)**
 - On Github, paste the it in Payload URL. Content type = json and let secret empty **(Github > Settings > Webhooks > Add webhook)**
